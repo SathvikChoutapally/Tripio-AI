@@ -1,0 +1,299 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL BASE STYLES
+   ═══════════════════════════════════════════════════════════════ */
+
+@layer base {
+  :root {
+    --brand-primary: #4f5fff;
+    --brand-secondary: #8b5cf6;
+    --brand-accent: #14b8a6;
+    --bg-deep: #0a0a1e;
+    --bg-card: rgba(20, 20, 50, 0.7);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --text-muted: rgba(255, 255, 255, 0.5);
+  }
+
+  * {
+    box-sizing: border-box;
+    border-color: rgba(255,255,255,0.08);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-[#0a0a1e] text-white font-sans;
+    background: radial-gradient(ellipse at 20% 0%, rgba(79, 95, 255, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 100%, rgba(20, 184, 166, 0.1) 0%, transparent 60%),
+                #0a0a1e;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: rgba(79, 95, 255, 0.4);
+    color: white;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(79, 95, 255, 0.4);
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(79, 95, 255, 0.7);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENT CLASSES
+   ═══════════════════════════════════════════════════════════════ */
+
+@layer components {
+  /* Glassmorphism Card */
+  .glass-card {
+    @apply rounded-2xl;
+    background: rgba(20, 20, 50, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .glass-card:hover {
+    border-color: rgba(79, 95, 255, 0.3);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(79, 95, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* Brand Gradient Text */
+  .gradient-text {
+    background: linear-gradient(135deg, #6b83ff 0%, #a78bfa 50%, #2dd4bf 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Brand Gradient Button */
+  .btn-brand {
+    @apply px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300;
+    background: linear-gradient(135deg, #4f5fff 0%, #8b5cf6 100%);
+    box-shadow: 0 4px 15px rgba(79, 95, 255, 0.4);
+  }
+
+  .btn-brand:hover {
+    box-shadow: 0 8px 25px rgba(79, 95, 255, 0.6);
+    transform: translateY(-1px);
+  }
+
+  .btn-brand:active {
+    transform: translateY(0);
+  }
+
+  /* Glass Input */
+  .input-glass {
+    @apply w-full px-4 py-3 rounded-xl text-white placeholder-white/40 outline-none transition-all duration-200;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .input-glass:focus {
+    border-color: rgba(79, 95, 255, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(79, 95, 255, 0.15);
+  }
+
+  /* Ambient glow orbs */
+  .glow-orb {
+    @apply absolute rounded-full pointer-events-none;
+    filter: blur(80px);
+    opacity: 0.15;
+  }
+
+  /* Chat bubble */
+  .chat-bubble-user {
+    @apply ml-auto max-w-xs lg:max-w-sm rounded-2xl rounded-tr-sm px-4 py-3;
+    background: linear-gradient(135deg, #4f5fff 0%, #8b5cf6 100%);
+    box-shadow: 0 4px 15px rgba(79, 95, 255, 0.3);
+  }
+
+  .chat-bubble-assistant {
+    @apply mr-auto max-w-xs lg:max-w-md rounded-2xl rounded-tl-sm px-4 py-3;
+    background: rgba(20, 20, 50, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .chat-bubble-tool {
+    @apply mx-auto max-w-xs text-center rounded-xl px-4 py-2 text-sm;
+    background: rgba(79, 95, 255, 0.1);
+    border: 1px solid rgba(79, 95, 255, 0.2);
+    color: rgba(139, 92, 246, 1);
+  }
+
+  /* Tilt card (for 3D effect) */
+  .tilt-card {
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+    transition: transform 0.15s ease;
+    will-change: transform;
+  }
+
+  /* Step indicator */
+  .step-active {
+    @apply text-white;
+    background: linear-gradient(135deg, #4f5fff 0%, #8b5cf6 100%);
+    box-shadow: 0 0 20px rgba(79, 95, 255, 0.5);
+  }
+
+  .step-completed {
+    @apply text-white;
+    background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  }
+
+  .step-pending {
+    @apply text-white/30;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Waveform bar */
+  .waveform-bar {
+    @apply rounded-full;
+    background: linear-gradient(180deg, #4f5fff, #8b5cf6);
+    animation: waveform 0.5s ease-in-out infinite alternate;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    @apply rounded-full h-1.5 overflow-hidden;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .progress-bar-fill {
+    @apply h-full rounded-full transition-all duration-500;
+    background: linear-gradient(90deg, #4f5fff, #8b5cf6);
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-brand {
+    @apply badge;
+    background: rgba(79, 95, 255, 0.2);
+    color: #a5b4fc;
+    border: 1px solid rgba(79, 95, 255, 0.3);
+  }
+
+  .badge-teal {
+    @apply badge;
+    background: rgba(20, 184, 166, 0.2);
+    color: #5eead4;
+    border: 1px solid rgba(20, 184, 166, 0.3);
+  }
+
+  .badge-amber {
+    @apply badge;
+    background: rgba(245, 158, 11, 0.2);
+    color: #fcd34d;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  /* Navbar glass */
+  .navbar-glass {
+    background: rgba(10, 10, 30, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITY ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+  .animation-delay-100 { animation-delay: 0.1s; }
+  .animation-delay-200 { animation-delay: 0.2s; }
+  .animation-delay-300 { animation-delay: 0.3s; }
+  .animation-delay-500 { animation-delay: 0.5s; }
+  .animation-delay-700 { animation-delay: 0.7s; }
+
+  /* Text balance */
+  .text-balance { text-wrap: balance; }
+
+  /* Gradient border trick */
+  .gradient-border {
+    position: relative;
+  }
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #4f5fff, #8b5cf6, #14b8a6);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KEYFRAME ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes waveform {
+  0% { transform: scaleY(0.2); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(1deg); }
+  66% { transform: translateY(-8px) rotate(-1deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes orb-pulse {
+  0%, 100% { opacity: 0.1; transform: scale(1); }
+  50% { opacity: 0.2; transform: scale(1.1); }
+}
+
+/* Skeleton loading shimmer */
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}

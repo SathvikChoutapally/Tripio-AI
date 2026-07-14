@@ -1,0 +1,74 @@
+version: '3.9'
+
+services:
+  # ─────────────────────────────────────────
+  # Python AI Service (LangGraph + FastAPI)
+  # ─────────────────────────────────────────
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: tripio-ai-service
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./ai-service/.env
+    environment:
+      - AI_SERVICE_HOST=0.0.0.0
+      - AI_SERVICE_PORT=8000
+    volumes:
+      - ./ai-service:/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ─────────────────────────────────────────
+  # Node.js Express Server (API Gateway)
+  # ─────────────────────────────────────────
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: tripio-server
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./server/.env
+    environment:
+      - AI_SERVICE_URL=http://ai-service:8000
+      - NODE_ENV=production
+    depends_on:
+      ai-service:
+        condition: service_healthy
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ─────────────────────────────────────────
+  # React Client (Vite dev server or Nginx)
+  # ─────────────────────────────────────────
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: tripio-client
+    ports:
+      - "5173:80"
+    env_file:
+      - ./client/.env
+    depends_on:
+      - server
+    restart: unless-stopped
+
+networks:
+  default:
+    name: tripio-network
