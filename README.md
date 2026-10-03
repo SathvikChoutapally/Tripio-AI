@@ -1,6 +1,6 @@
-# TripioAI — AI Multi-Agent Travel Planner
+# TripioAI — AI Travel Planner
 
-> **A production-grade, full-stack travel planner powered by a LangGraph multi-agent system, Retrieval-Augmented Generation (RAG), real API integrations (Duffel flights, LiteAPI hotels, Razorpay payments), real-time streaming UI, 3D visuals, and LangSmith observability.**
+> **A production-grade, full-stack travel planner powered by a LangGraph system, Retrieval-Augmented Generation (RAG), real API integrations (Duffel flights, LiteAPI hotels, Razorpay payments), real-time streaming UI, 3D visuals, and LangSmith observability.**
 
 [![Stack](https://img.shields.io/badge/Stack-PERN-blue)](.) [![AI](https://img.shields.io/badge/AI-LangGraph%20%2B%20Gemini-purple)](.) [![Payments](https://img.shields.io/badge/Payments-Razorpay%20INR-green)](.)
 
